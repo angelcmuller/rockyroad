@@ -1,7 +1,7 @@
-#Project Rocky Road
-#Author: Gabriel Moretenson, Tristan Bailey
-#DLM (Date Last Modified): 12/16/2022
-#Desc:
+# Project Rocky Road
+# Author: Gabriel Moretenson, Tristan Bailey
+# DLM (Date Last Modified): 12/16/2022
+# Desc:
 #   Drive file for testing if the database hanlder pytohn object works as intended
 #   for making bulk updats to the MongoDB. Code developed by Tristan and Gabriel.
 # use libraries for CNNs and ML traning
@@ -17,6 +17,7 @@ import os
 
 from Data_Manager import Data_Manager
 
+
 def main():
     print("========Welcome to ROS Backend========")
 
@@ -28,18 +29,20 @@ def addPinData():
     df = pd.read_csv('src_con/Data.csv', usecols=[
         'Pid', 'Lattitude', 'Longitude', 'Altitude', 'MeasurementDate',
         'UploadDate', 'Source', 'Cid', 'Classification', 'Degree'])
-    print(df) 
-    load_dotenv()   
-    data_manager = Data_Manager(os.environ["MONGOAPIUSER"], os.environ["MONGOAPIKEY"])
+    print(df)
+    load_dotenv()
+    data_manager = Data_Manager(
+        os.environ["MONGOAPIUSER"], os.environ["MONGOAPIKEY"])
 
     # Add data to the database
     # Note Pins is a custom name for the connection (you can rename it)
     for index, row in df.iterrows():
         data_manager.add(row['Pid'], row['Lattitude'], row['Longitude'], row['Altitude'],
-            row['MeasurementDate'], row['UploadDate'], row['Source'], row['Cid'], row['Classification'], row['Degree'])
-    
+                         row['MeasurementDate'], row['UploadDate'], row['Source'], row['Cid'], row['Classification'], row['Degree'])
+
     data_manager.push()
 
-#main guard
+
+# main guard
 if __name__ == "__main__":
     main()
